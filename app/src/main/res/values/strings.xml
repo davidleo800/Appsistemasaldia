@@ -1,3 +1,24 @@
 <resources>
     <string name="app_name">Appsistemasaldia</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="prompt_cc">Identificación</string>
+    <string name="prompt_Name">Nombre</string>
+    <string name="prompt_LastName">Apellido</string>
+    <string name="prompt_typeUser">Tipo de usuario</string>
+    <string name="prompt_Admin">Administrador</string>
+    <string name="prompt_Driver">Conductor</string>
+    <string name="prompt_password">Password</string>
+    <string name="sing_up">"Registrarse"</string>
+    <string name="action_sign_in">Ingresar</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="titulo_registrar_usuario">Registrar usuario</string>
+
+    <string name="URL_RegisterUser">https://webservicetest-android.000webhostapp.com/WebServices/RegistroUsuarios.php</string>
+    <string name="URL_Login">https://webservicetest-android.000webhostapp.com/WebServices/ws_login.php</string>
+    <string name="URL_RegisterProduct">https://webservicetest-android.000webhostapp.com/WebServices/RegisterProduct.php</string>
+    <string name="URL_GetProduct">https://webservicetest-android.000webhostapp.com/WebServices/GetProducts.php</string>
 </resources>
