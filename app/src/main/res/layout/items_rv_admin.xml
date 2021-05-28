@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_margin="10dp">
+
+    <androidx.cardview.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        card_view:cardCornerRadius="4dp"
+        android:layout_margin="10dp"
+        card_view:cardBackgroundColor="@color/blueDis"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:fontFamily="sans-serif-black"
+                android:layout_margin="5dp"
+                android:textSize="16dp"
+                android:id="@+id/tv_IdInv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="01111"/>
+
+            <LinearLayout
+                android:layout_margin="5dp"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+
+                android:orientation="vertical">
+                <TextView
+                    android:fontFamily="sans-serif-condensed-medium"
+                    android:id="@+id/tv_products"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Producto 1, Cantidad: 2, valor: 200000\nProducto 2, Cantidad 1, valor: 35000"/>
+                <TextView
+                    android:fontFamily="sans-serif-condensed-light"
+                    android:textSize="15dp"
+                    android:id="@+id/tv_Obs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Esta es una observacion.. productos vendidos"/>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/lltotal"
+                android:layout_margin="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="200dp"
+                android:orientation="vertical">
+                <TextView
+                    android:fontFamily="sans-serif-condensed-medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Total"/>
+                <TextView
+                    android:fontFamily="sans-serif-condensed-medium"
+                    android:id="@+id/tv_total"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="235000"/>
+
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+
+
+
+
+
+</LinearLayout>

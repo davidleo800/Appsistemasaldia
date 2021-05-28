@@ -11,15 +11,19 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.aldia.appsistemasaldia.R;
+import com.aldia.appsistemasaldia.data.model.ArrayProductsFac;
+import com.aldia.appsistemasaldia.data.model.Model_ProductsFactura;
 import com.aldia.appsistemasaldia.data.model.tb_Details_Product;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class RecyclerViewAdapterProducts extends RecyclerView.Adapter<RecyclerViewAdapterProducts.productViewHolder> {
     Context context;
     List<tb_Details_Product> listProduct;
+    ArrayProductsFac arrayProductsFac = new ArrayProductsFac();
 
     public RecyclerViewAdapterProducts (Context context, List<tb_Details_Product> listProduct) {
         this.context = context;
@@ -40,22 +44,33 @@ public class RecyclerViewAdapterProducts extends RecyclerView.Adapter<RecyclerVi
         holder.tvPrice.setText(String.valueOf(listProduct.get(position).getAmount()));
         AtomicInteger cont = new AtomicInteger();
         // Suma valor en text view cant
+
+        //ArrayList<Model_ProductsFactura> arr = new ArrayList<>();
         holder.btnMore.setOnClickListener(v ->{
             cont.set(cont.get() + 1);
-            System.out.println(listProduct.get(position).getProduct_name());
-            System.out.println(cont);
             holder.tvcant.setText(String.valueOf(cont));
             holder.tvTotal.setText(String.valueOf(listProduct.get(position).getAmount() * cont.doubleValue()));
+            // Insertar en array list los productos
+            arrayProductsFac.Array(listProduct.get(position).getId_product(),
+                    listProduct.get(position).getProduct_name(),
+                    (listProduct.get(position).getAmount() * cont.doubleValue()),
+                    cont.intValue());
+
         });
+
         // Resta valor en text view cant
         holder.btnLess.setOnClickListener(v ->{
             if (cont.get() > 0) {
                 cont.set(cont.get() - 1);
-                System.out.println(listProduct.get(position).getProduct_name());
-                System.out.println(cont);
                 holder.tvcant.setText(String.valueOf(cont));
                 holder.tvTotal.setText(String.valueOf(listProduct.get(position).getAmount() * cont.doubleValue()));
+                // Insertar en array list los productos
+                arrayProductsFac.Array(listProduct.get(position).getId_product(),
+                        listProduct.get(position).getProduct_name(),
+                        (listProduct.get(position).getAmount() * cont.doubleValue()),
+                        cont.intValue());
             }
+
         });
     }
 

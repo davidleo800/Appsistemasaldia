@@ -1,5 +1,6 @@
 package com.aldia.appsistemasaldia.ui.main;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
@@ -7,12 +8,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -20,16 +26,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.aldia.appsistemasaldia.R;
+import com.aldia.appsistemasaldia.data.model.ArrayProductsFac;
 import com.aldia.appsistemasaldia.data.model.DataRegisterProduct;
 import com.aldia.appsistemasaldia.data.model.GetProducts;
 import com.aldia.appsistemasaldia.ui.login.LoginActivity;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.math.BigDecimal;
+import java.util.ArrayList;
 
 
 public class MainDirver extends AppCompatActivity {
@@ -37,7 +41,8 @@ public class MainDirver extends AppCompatActivity {
     private Toolbar toolbar;
     private EditText etDate;
     private TextView tvName, tvLastname;
-    private TextInputLayout tiClient, tiProduct, tiObs;
+    private TextInputLayout tiClient, tiObs;
+    private TextInputEditText tietClient;
     String Id_user;
     private ProgressDialog progressDialog;
     private Button btnAgregar;
@@ -56,10 +61,11 @@ public class MainDirver extends AppCompatActivity {
 
         // textfield.TextInputLayout Client
         tiClient = findViewById(R.id.tiClient);
-        // textfield.TextInputLayout Product
-        tiProduct = findViewById(R.id.tiProduct);
         // textfield.TextInputLayout Observaciones
         tiObs = findViewById(R.id.tiObs);
+        // textfield.TextInputEditText
+        tietClient = findViewById(R.id.tietClient);
+
         // Button btnAgregar
         btnAgregar = findViewById(R.id.btnAgregar);
 
@@ -70,7 +76,8 @@ public class MainDirver extends AppCompatActivity {
         setSupportActionBar(toolbar);
         // RecyclerView
         rvProducts = findViewById(R.id.rvProducts);
-
+        // Procesa si se hizo un cambio en los textField
+        textwatcherValidacion();
 
         // listar productos
         GetProducts getProducts = new GetProducts();
@@ -104,14 +111,21 @@ public class MainDirver extends AppCompatActivity {
         }
         // Fin Obtener datos de sesion
 
-
         btnAgregar.setOnClickListener(v -> {
-            progressDialog.setMessage("Cargando datos");
-            progressDialog.show();
-            registerProduct();
+
+
+            if(tiClient.getEditText().getText().toString().equals("")){
+                tiClient.setError("Complete este campo");
+            }else {
+                progressDialog.setMessage("Cargando datos");
+                progressDialog.show();
+                registerProduct();
+                hideKeyboard();
+                tietClient.setText("");
+            }
+
 
         });
-
 
         // Progress dialog
         progressDialog= new ProgressDialog(this);
@@ -119,47 +133,73 @@ public class MainDirver extends AppCompatActivity {
 
     public void registerProduct(){
 
-        int cantidad = 1;
-        String ref = "8";
-        BigDecimal valor = new java.math.BigDecimal("20000");
 
-        JSONArray jsonArrayProducto = new JSONArray();
-        JSONObject jsonObjectProducto = new JSONObject();
-        try {
-            jsonObjectProducto.put("Id_Client", tiClient.getEditText().getText().toString());
-            jsonObjectProducto.put("Id_product", tiProduct.getEditText().getText().toString());
-            jsonObjectProducto.put("cantidad", cantidad);
-            jsonObjectProducto.put("valor", valor);
-            jsonObjectProducto.put("observaciones", tiObs.getEditText().getText().toString());
-            jsonObjectProducto.put("Id_user", String.valueOf(Id_user));
-        } catch (JSONException e) {
-            e.printStackTrace();
+        AlertDialog.Builder dialogo1 = new AlertDialog.Builder(this);
+        dialogo1.setTitle("¿Desea registrar la compra de estos productos?");
+
+        ArrayProductsFac arr = new ArrayProductsFac();
+        double total = 0;
+        StringBuilder produtosfinales = new StringBuilder();
+        ArrayList<String> arraNew = new ArrayList<>();
+        for (int i = 0; i < arr.getModel_ProductsFactura().size(); i++) {
+            total += arr.getModel_ProductsFactura().get(i).getAmount();
+            arraNew.add("{\"Id\": \""+arr.getModel_ProductsFactura().get(i).getId_product()+"\", "+
+                    "\"Name\": \""+arr.getModel_ProductsFactura().get(i).getProduct_name()+"\", "+
+                    "\"Cant\": \""+arr.getModel_ProductsFactura().get(i).getCant()+"\", "+
+                    "\"Amount\": \""+arr.getModel_ProductsFactura().get(i).getAmount()+"\"}");
+            produtosfinales.append("Id: ").append(arr.getModel_ProductsFactura().get(i).getId_product())
+                    .append(" Name: ").append(arr.getModel_ProductsFactura().get(i).getProduct_name())
+                    .append(" Cant: ").append(arr.getModel_ProductsFactura().get(i).getCant())
+                    .append(" Amount: ").append(arr.getModel_ProductsFactura().get(i).getAmount()).append("\n");
         }
-        jsonArrayProducto.put(jsonObjectProducto);
+        dialogo1.setMessage(""+produtosfinales+"\n"+"Total: "+total);
 
-        JSONObject json = new JSONObject();
-        try {
-            json.put("Product", jsonArrayProducto);
-        } catch (JSONException e) {
-            e.printStackTrace();
+
+        dialogo1.setCancelable(false);
+        double finalTotal = total;
+
+        if(total == 0){
+            progressDialog.dismiss();
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Error al intentar registrar factura");
+            builder.setMessage("Debe seleccionar al menos un producto");
+            builder.setPositiveButton("Aceptar", null);
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }else {
+            dialogo1.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialogo1, int id) {
+                    System.out.println(arraNew.toString());
+                    System.out.println(finalTotal);
+
+
+                    DataRegisterProduct dataRegisterProduct = new DataRegisterProduct();
+                    // System.out.println(json);
+                    // String jsonStr = json.toString();
+                    dataRegisterProduct.RegisterProduct(
+                            tiClient.getEditText().getText().toString(),
+                            arraNew.toString(),
+                            String.valueOf(finalTotal),
+                            tiObs.getEditText().getText().toString(),
+                            String.valueOf(Id_user),
+                            getApplicationContext(),
+                            coorLayout,
+                            progressDialog,
+                            getString(R.string.URL_RegisterProduct)
+                    );
+
+                }
+            });
+            dialogo1.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialogo1, int id) {
+                    progressDialog.dismiss();
+                    Toast.makeText(getApplicationContext(), "Operación cancelada", Toast.LENGTH_LONG).show();
+                }
+            });
+            dialogo1.show();
         }
 
-        DataRegisterProduct dataRegisterProduct = new DataRegisterProduct();
-        System.out.println(json);
-        String jsonStr = json.toString();
-        dataRegisterProduct.RegisterProduct(
-                ref,
-                tiClient.getEditText().getText().toString(),
-                tiProduct.getEditText().getText().toString(),
-                Integer.toString(cantidad),
-                valor.toString(),
-                tiObs.getEditText().getText().toString(),
-                String.valueOf(Id_user),
-                this,
-                coorLayout,
-                progressDialog,
-                getString(R.string.URL_RegisterProduct)
-        );
 
     }
 
@@ -184,6 +224,35 @@ public class MainDirver extends AppCompatActivity {
                 // Invoke the superclass to handle it.
                 return super.onOptionsItemSelected(item);
 
+        }
+    }
+
+    public void textwatcherValidacion() {
+
+        tietClient.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                tiClient.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+    }
+
+
+    private void hideKeyboard() {
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
     }
 
