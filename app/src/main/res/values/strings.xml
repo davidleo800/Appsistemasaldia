@@ -23,4 +23,5 @@
     <string name="URL_RegisterProduct">https://webservicetest-android.000webhostapp.com/WebServices/RegisterProduct.php</string>
     <string name="URL_GetProduct">https://webservicetest-android.000webhostapp.com/WebServices/GetProducts.php</string>
     <string name="URL_GetInvoice">https://webservicetest-android.000webhostapp.com/WebServices/GetInvoice.php</string>
+    <string name="URL_GetClients">https://webservicetest-android.000webhostapp.com/WebServices/GetClients.php</string>
 </resources>

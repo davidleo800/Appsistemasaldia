@@ -2,6 +2,7 @@ package com.aldia.appsistemasaldia.ui.main;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatAutoCompleteTextView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,6 +20,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -26,10 +28,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.aldia.appsistemasaldia.R;
+import com.aldia.appsistemasaldia.data.model.ArrayClients;
 import com.aldia.appsistemasaldia.data.model.ArrayProductsFac;
 import com.aldia.appsistemasaldia.data.model.DataRegisterProduct;
+import com.aldia.appsistemasaldia.data.model.GetClients;
 import com.aldia.appsistemasaldia.data.model.GetProducts;
+import com.aldia.appsistemasaldia.data.model.mailerApi.MailAPI;
 import com.aldia.appsistemasaldia.ui.login.LoginActivity;
+import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -42,7 +48,9 @@ public class MainDirver extends AppCompatActivity {
     private EditText etDate;
     private TextView tvName, tvLastname;
     private TextInputLayout tiClient, tiObs;
-    private TextInputEditText tietClient;
+    // private TextInputEditText tietClient;
+    // private AppCompatAutoCompleteTextView tietClient;
+    private MaterialAutoCompleteTextView tietClient;
     String Id_user;
     private ProgressDialog progressDialog;
     private Button btnAgregar;
@@ -64,6 +72,8 @@ public class MainDirver extends AppCompatActivity {
         // textfield.TextInputLayout Observaciones
         tiObs = findViewById(R.id.tiObs);
         // textfield.TextInputEditText
+        // tietClient = findViewById(R.id.tietClient);
+        // AppCompatAutoCompleteTextView
         tietClient = findViewById(R.id.tietClient);
 
         // Button btnAgregar
@@ -111,8 +121,8 @@ public class MainDirver extends AppCompatActivity {
         }
         // Fin Obtener datos de sesion
 
+        //Button Registrar
         btnAgregar.setOnClickListener(v -> {
-
 
             if(tiClient.getEditText().getText().toString().equals("")){
                 tiClient.setError("Complete este campo");
@@ -127,12 +137,46 @@ public class MainDirver extends AppCompatActivity {
 
         });
 
+
+        // Fill AppCompatAutoCompleteTextView
+        GetClients getClients = new GetClients();
+        getClients.getListClients(getApplicationContext(), getString(R.string.URL_GetClients), tietClient);
+        //ArrayClients arrayClients = new ArrayClients();
+        //System.out.println(arrayClients.getModel_Clients());
+
+        /*StringBuilder produtosfinales = new StringBuilder();
+        ArrayList<String> arraNew = new ArrayList<>();
+        for (int i = 0; i < arr.getModel_ProductsFactura().size(); i++) {
+            total += arr.getModel_ProductsFactura().get(i).getAmount();
+            arraNew.add("{\"Id\": \""+arr.getModel_ProductsFactura().get(i).getId_product()+"\", "+
+                    "\"Name\": \""+arr.getModel_ProductsFactura().get(i).getProduct_name()+"\", "+
+                    "\"Cant\": \""+arr.getModel_ProductsFactura().get(i).getCant()+"\", "+
+                    "\"Amount\": \""+arr.getModel_ProductsFactura().get(i).getAmount()+"\"}");
+            produtosfinales.append("Id: ").append(arr.getModel_ProductsFactura().get(i).getId_product())
+                    .append(" Name: ").append(arr.getModel_ProductsFactura().get(i).getProduct_name())
+                    .append(" Cant: ").append(arr.getModel_ProductsFactura().get(i).getCant())
+                    .append(" Amount: ").append(arr.getModel_ProductsFactura().get(i).getAmount()).append("\n");
+        }
+
+        getClients.getListClients(this, getString(R.string.URL_GetClients), tietClient);
+        */
+
         // Progress dialog
         progressDialog= new ProgressDialog(this);
     }
 
+
     public void registerProduct(){
 
+        ArrayClients arrayClients = new ArrayClients();
+        // System.out.println(arrayClients.getModel_Clients().get(1).getId_Client());
+        String emailTarget = "";
+        for (int i = 0; i <arrayClients.getModel_Clients().size(); i++) {
+            if(arrayClients.getModel_Clients().get(i).getId_Client().equals(tiClient.getEditText().getText().toString())){
+                emailTarget = arrayClients.getModel_Clients().get(i).getEmail_Client();
+                break;
+            }
+        }
 
         AlertDialog.Builder dialogo1 = new AlertDialog.Builder(this);
         dialogo1.setTitle("¿Desea registrar la compra de estos productos?");
@@ -168,6 +212,7 @@ public class MainDirver extends AppCompatActivity {
             AlertDialog dialog = builder.create();
             dialog.show();
         }else {
+            String finalEmailTarget = emailTarget;
             dialogo1.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialogo1, int id) {
                     System.out.println(arraNew.toString());
@@ -188,6 +233,12 @@ public class MainDirver extends AppCompatActivity {
                             progressDialog,
                             getString(R.string.URL_RegisterProduct)
                     );
+
+                    MailAPI mailAPI = new MailAPI(getApplicationContext(),
+                            finalEmailTarget,
+                            "(NO REPLY) FACTURA App sistemas al día",
+                            produtosfinales+"\n"+tiObs.getEditText().getText().toString()+"\n"+"Total: "+ finalTotal);
+                    mailAPI.execute();
 
                 }
             });

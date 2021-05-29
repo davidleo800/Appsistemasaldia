@@ -44,6 +44,7 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent" />
 
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tiClient"
                 android:layout_width="match_parent"
@@ -62,14 +63,25 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
 
-                <com.google.android.material.textfield.TextInputEditText
+               <!-- <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/tietClient"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text"
                     android:singleLine="true" />
-
+                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                    android:id="@+id/tietClient"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:singleLine="true" />-->
+                <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                    android:id="@+id/tietClient"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"/>
             </com.google.android.material.textfield.TextInputLayout>
+
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tiObs"

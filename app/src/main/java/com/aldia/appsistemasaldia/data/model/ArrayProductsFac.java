@@ -1,13 +1,9 @@
 package com.aldia.appsistemasaldia.data.model;
 
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
-
+/* Array que sera enviado y leido por por main actyivity MainDriver para ser listado */
 public class ArrayProductsFac {
 
     private static ArrayList<Model_ProductsFactura> model_ProductsFactura = new ArrayList<>();
