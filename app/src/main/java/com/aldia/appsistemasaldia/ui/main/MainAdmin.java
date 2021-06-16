@@ -74,20 +74,15 @@ public class MainAdmin extends AppCompatActivity {
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.logout:
-                // User chose the "Settings" item, show the app settings UI...
-                //SharedPreferences preferences = getSharedPreferences("preferencesLogin2", Context.MODE_PRIVATE);
-                //preferences.edit().clear().commit();
-                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                startActivity(intent);
-                finish();
-            default:
-                // If we got here, the user's action was not recognized.
-                // Invoke the superclass to handle it.
-                return super.onOptionsItemSelected(item);
-
-        }
+        if (item.getItemId() == R.id.logout) {// User chose the "Settings" item, show the app settings UI...
+            //SharedPreferences preferences = getSharedPreferences("preferencesLogin2", Context.MODE_PRIVATE);
+            //preferences.edit().clear().commit();
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }// If we got here, the user's action was not recognized.
+        // Invoke the superclass to handle it.
+        return super.onOptionsItemSelected(item);
     }
 
 
