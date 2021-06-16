@@ -7,6 +7,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -40,6 +41,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 
 public class MainDirver extends AppCompatActivity {
@@ -114,7 +116,7 @@ public class MainDirver extends AppCompatActivity {
             editor.putString("Nombre", nombre);
             editor.putString("Apellido", apell);
             editor.putString("Id_User", Id_user);
-            editor.commit();
+            editor.apply();
         } else {
             tvName.setText(nombre);
             tvLastname.setText(apell);
@@ -124,7 +126,7 @@ public class MainDirver extends AppCompatActivity {
         //Button Registrar
         btnAgregar.setOnClickListener(v -> {
 
-            if(tiClient.getEditText().getText().toString().equals("")){
+            if(Objects.requireNonNull(tiClient.getEditText()).getText().toString().equals("")){
                 tiClient.setError("Complete este campo");
             }else {
                 progressDialog.setMessage("Cargando datos");
@@ -137,29 +139,9 @@ public class MainDirver extends AppCompatActivity {
 
         });
 
-
         // Fill AppCompatAutoCompleteTextView
         GetClients getClients = new GetClients();
         getClients.getListClients(getApplicationContext(), getString(R.string.URL_GetClients), tietClient);
-        //ArrayClients arrayClients = new ArrayClients();
-        //System.out.println(arrayClients.getModel_Clients());
-
-        /*StringBuilder produtosfinales = new StringBuilder();
-        ArrayList<String> arraNew = new ArrayList<>();
-        for (int i = 0; i < arr.getModel_ProductsFactura().size(); i++) {
-            total += arr.getModel_ProductsFactura().get(i).getAmount();
-            arraNew.add("{\"Id\": \""+arr.getModel_ProductsFactura().get(i).getId_product()+"\", "+
-                    "\"Name\": \""+arr.getModel_ProductsFactura().get(i).getProduct_name()+"\", "+
-                    "\"Cant\": \""+arr.getModel_ProductsFactura().get(i).getCant()+"\", "+
-                    "\"Amount\": \""+arr.getModel_ProductsFactura().get(i).getAmount()+"\"}");
-            produtosfinales.append("Id: ").append(arr.getModel_ProductsFactura().get(i).getId_product())
-                    .append(" Name: ").append(arr.getModel_ProductsFactura().get(i).getProduct_name())
-                    .append(" Cant: ").append(arr.getModel_ProductsFactura().get(i).getCant())
-                    .append(" Amount: ").append(arr.getModel_ProductsFactura().get(i).getAmount()).append("\n");
-        }
-
-        getClients.getListClients(this, getString(R.string.URL_GetClients), tietClient);
-        */
 
         // Progress dialog
         progressDialog= new ProgressDialog(this);
@@ -172,7 +154,7 @@ public class MainDirver extends AppCompatActivity {
         // System.out.println(arrayClients.getModel_Clients().get(1).getId_Client());
         String emailTarget = "";
         for (int i = 0; i <arrayClients.getModel_Clients().size(); i++) {
-            if(arrayClients.getModel_Clients().get(i).getId_Client().equals(tiClient.getEditText().getText().toString())){
+            if(arrayClients.getModel_Clients().get(i).getId_Client().equals(Objects.requireNonNull(tiClient.getEditText()).getText().toString())){
                 emailTarget = arrayClients.getModel_Clients().get(i).getEmail_Client();
                 break;
             }
@@ -213,40 +195,36 @@ public class MainDirver extends AppCompatActivity {
             dialog.show();
         }else {
             String finalEmailTarget = emailTarget;
-            dialogo1.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialogo1, int id) {
-                    System.out.println(arraNew.toString());
-                    System.out.println(finalTotal);
+            dialogo1.setPositiveButton("Confirmar", (dialogo11, id) -> {
+                System.out.println(arraNew.toString());
+                System.out.println(finalTotal);
 
 
-                    DataRegisterProduct dataRegisterProduct = new DataRegisterProduct();
-                    // System.out.println(json);
-                    // String jsonStr = json.toString();
-                    dataRegisterProduct.RegisterProduct(
-                            tiClient.getEditText().getText().toString(),
-                            arraNew.toString(),
-                            String.valueOf(finalTotal),
-                            tiObs.getEditText().getText().toString(),
-                            String.valueOf(Id_user),
-                            getApplicationContext(),
-                            coorLayout,
-                            progressDialog,
-                            getString(R.string.URL_RegisterProduct)
-                    );
+                DataRegisterProduct dataRegisterProduct = new DataRegisterProduct();
+                // System.out.println(json);
+                // String jsonStr = json.toString();
+                dataRegisterProduct.RegisterProduct(
+                        Objects.requireNonNull(tiClient.getEditText()).getText().toString(),
+                        arraNew.toString(),
+                        String.valueOf(finalTotal),
+                        Objects.requireNonNull(tiObs.getEditText()).getText().toString(),
+                        String.valueOf(Id_user),
+                        getApplicationContext(),
+                        coorLayout,
+                        progressDialog,
+                        getString(R.string.URL_RegisterProduct)
+                );
 
-                    MailAPI mailAPI = new MailAPI(getApplicationContext(),
-                            finalEmailTarget,
-                            "(NO REPLY) FACTURA App sistemas al día",
-                            produtosfinales+"\n"+tiObs.getEditText().getText().toString()+"\n"+"Total: "+ finalTotal);
-                    mailAPI.execute();
+                MailAPI mailAPI = new MailAPI(getApplicationContext(),
+                        finalEmailTarget,
+                        "(NO REPLY) FACTURA App sistemas al día",
+                        produtosfinales+"\n"+tiObs.getEditText().getText().toString()+"\n"+"Total: "+ finalTotal);
+                mailAPI.execute();
 
-                }
             });
-            dialogo1.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialogo1, int id) {
-                    progressDialog.dismiss();
-                    Toast.makeText(getApplicationContext(), "Operación cancelada", Toast.LENGTH_LONG).show();
-                }
+            dialogo1.setNegativeButton("Cancelar", (dialogo112, id) -> {
+                progressDialog.dismiss();
+                Toast.makeText(getApplicationContext(), "Operación cancelada", Toast.LENGTH_LONG).show();
             });
             dialogo1.show();
         }
@@ -262,20 +240,15 @@ public class MainDirver extends AppCompatActivity {
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.logout:
-                // User chose the "Settings" item, show the app settings UI...
-                SharedPreferences preferences = getSharedPreferences("preferencesLogin", Context.MODE_PRIVATE);
-                preferences.edit().clear().commit();
-                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                startActivity(intent);
-                finish();
-            default:
-                // If we got here, the user's action was not recognized.
-                // Invoke the superclass to handle it.
-                return super.onOptionsItemSelected(item);
-
-        }
+        if (item.getItemId() == R.id.logout) {// User chose the "Settings" item, show the app settings UI...
+            SharedPreferences preferences = getSharedPreferences("preferencesLogin", Context.MODE_PRIVATE);
+            preferences.edit().clear().apply();
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }// If we got here, the user's action was not recognized.
+        // Invoke the superclass to handle it.
+        return super.onOptionsItemSelected(item);
     }
 
     public void textwatcherValidacion() {

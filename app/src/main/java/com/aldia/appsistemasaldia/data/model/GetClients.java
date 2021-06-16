@@ -31,7 +31,7 @@ public class GetClients {
                         JSONObject jsonObject = new JSONObject(response);
                         JSONArray jsonArray = jsonObject.getJSONArray("Clients");
                         ArrayClients arrayClients = new ArrayClients();
-                        ArrayList<String> arr = new ArrayList<String>();
+                        ArrayList<String> arr = new ArrayList<>();
 
                         // datos = jsonArray;
                         for(int i = 0 ; i < jsonArray.length() ; i++) {
@@ -47,20 +47,21 @@ public class GetClients {
                                             jsonObject1.getString("email")
                                     )
                             );
-                            arrayClients.ArraySetClients(ListClients.get(i).getId_Client(),
+                            arrayClients.ArraySetClients(
+                                    ListClients.get(i).getId_Client(),
                                     ListClients.get(i).getName_Client(),
                                     ListClients.get(i).getPhone1_client(),
                                     ListClients.get(i).getPhone2_client(),
                                     ListClients.get(i).getAddress_Client(),
                                     ListClients.get(i).getEmail_Client());
-                            arr.add(ListClients.get(i).getId_Client());
+                            arr.add(ListClients.get(i).getName_Client());
                         }
                         ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, arr);
                         tietClient.setAdapter(adapter);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                }, error -> error.printStackTrace());
+                }, Throwable::printStackTrace);
         VolleySingleton.getInstanceVolley(context).addToRequestQueue(stringRequest);
     }
 }
