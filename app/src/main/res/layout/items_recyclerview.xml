@@ -1,86 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- <LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="60dp"
-    android:layout_weight="100"
-    android:layout_marginTop="10dp">
-
-
-
-        <TextView
-            android:id="@+id/tvIdProduct"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="5dp"
-            android:layout_weight="20"
-            android:hint="Id"
-            android:textSize="16dp" />
-
-        <TextView
-            android:id="@+id/tvProductName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_weight="20"
-            android:hint="Nombre"
-            android:textSize="16dp" />
-
-        <TextView
-            android:id="@+id/tvPrice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_weight="20"
-            android:gravity="center"
-            android:hint="Valor"
-            android:textSize="16dp" />
-
-    <Button
-        android:id="@+id/btn_less"
-        android:layout_width="30dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:gravity="center"
-        android:text="-"
-        android:textSize="10dp" />
-
-    <TextView
-            android:id="@+id/tvcant"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="30"
-            android:gravity="center"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:text="0"
-            android:textSize="16dp" />
-
-        <Button
-            android:id="@+id/btn_more"
-            android:layout_width="30dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="+"
-            android:textSize="10dp" />
-
-        <TextView
-            android:id="@+id/tvTotal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="20"
-            android:gravity="center"
-            android:text="0"
-            android:textSize="16dp" />
-
-</LinearLayout>
--->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_centerInParent="true"
     >
     <TextView
         android:id="@+id/tvIdProduct"
@@ -97,9 +19,9 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@+id/tvIdProduct"
+        android:layout_toEndOf="@+id/tvIdProduct"
         android:hint="Nombre"
-        android:textSize="16dp" />
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/tvPrice"
@@ -107,11 +29,10 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@+id/tvProductName"
-        android:layout_weight="20"
+        android:layout_toEndOf="@+id/tvProductName"
         android:gravity="center"
         android:hint="Valor"
-        android:textSize="16dp" />
+        android:textSize="16sp" />
 
     <Button
         android:id="@+id/btn_less"
@@ -120,7 +41,11 @@
         android:layout_below="@+id/tvPrice"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
-        android:text="-"/>
+        android:focusable="true"
+        android:text="-"
+        android:textColor="@color/blue"
+        android:textSize="20sp"
+        style="@style/Widget.MaterialComponents.Button.TextButton"/>
 
     <TextView
         android:id="@+id/tvcant"
@@ -128,20 +53,45 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_alignBaseline="@+id/btn_less"
-        android:layout_toRightOf="@+id/btn_less"
+        android:layout_toEndOf="@+id/btn_less"
         android:layout_below="@+id/tvPrice"
         android:text="0"
-        android:textSize="16dp" />
+        android:textSize="16sp" />
+
 
     <Button
         android:id="@+id/btn_more"
         android:layout_width="30dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvPrice"
-        android:layout_toRightOf="@+id/tvcant"
+        android:layout_toEndOf="@+id/tvcant"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
-        android:text="+"/>
+        android:focusable="true"
+        android:text="+"
+        android:textSize="20sp"
+        android:textColor="@color/blue"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tikg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_below="@+id/tvPrice"
+        android:layout_toEndOf="@+id/btn_more"
+        android:layout_alignBaseline="@+id/btn_less"
+        android:hint="Peso">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tietkg"
+            android:layout_width="91dp"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
 
     <TextView
         android:id="@+id/tvTotal"
@@ -149,16 +99,14 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_below="@+id/tvPrice"
-        android:layout_toRightOf="@+id/btn_more"
+        android:layout_toEndOf="@+id/tikg"
         android:layout_alignBaseline="@+id/btn_less"
         android:text="0"
-        android:textSize="16dp" />
+        android:textSize="16sp" />
 
     <View
-        android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?android:attr/listDivider"
-        />
+        android:background="?android:attr/listDivider" />
 
 </RelativeLayout>

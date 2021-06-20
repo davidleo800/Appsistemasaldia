@@ -4,14 +4,16 @@ package com.aldia.appsistemasaldia.data.model;
 public class Model_ProductsFactura {
     private String Id_product;
     private String product_name;
+    private Double weight;
     private Double amount;
     private int cant;
 
-    public Model_ProductsFactura(String Id_product, String product_name, Double amount, int cant) {
+    public Model_ProductsFactura(String Id_product, String product_name, Double weight, Double amount, int cant) {
         this.Id_product = Id_product;
         this.product_name = product_name;
         this.amount = amount;
         this.cant = cant;
+        this.weight = weight;
     }
 
     public String getId_product() {
@@ -38,6 +40,13 @@ public class Model_ProductsFactura {
         this.amount = amount;
     }
 
+    public Double getWeight() {
+        return weight;
+    }
+
+    public void setweight(Double weight) {
+        this.weight = weight;
+    }
 
     public int getCant() {
         return cant;

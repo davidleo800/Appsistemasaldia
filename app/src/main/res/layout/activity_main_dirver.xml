@@ -15,15 +15,13 @@
 
 
     <ScrollView
-        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
 
         <LinearLayout
-            android:id="@+id/ll1"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingTop="56dp">
 
@@ -45,44 +43,59 @@
                 app:layout_constraintEnd_toEndOf="parent" />
 
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/tiClient"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
                 android:layout_marginLeft="32dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="32dp"
-                android:layout_marginRight="32dp"
-                android:gravity="center"
-                android:hint="Cliente"
-                app:errorEnabled="true"
-                app:errorIconDrawable="@drawable/round_error_outline_white_18dp"
-                app:errorIconTint="@color/red"
-                app:helperTextEnabled="true"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
+                android:layout_marginRight="32dp">
 
-               <!-- <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tietClient"
-                    android:layout_width="match_parent"
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tiClient"
+                    android:layout_width="260sp"
                     android:layout_height="wrap_content"
-                    android:inputType="text"
-                    android:singleLine="true" />
-                <androidx.appcompat.widget.AppCompatAutoCompleteTextView
-                    android:id="@+id/tietClient"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="text"
-                    android:singleLine="true" />-->
-                <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                    android:id="@+id/tietClient"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="text"/>
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_marginRight="10dp"
+                    android:gravity="center"
+                    android:hint="Cliente"
+                    app:errorEnabled="true"
+                    app:errorIconDrawable="@drawable/round_error_outline_white_18dp"
+                    app:errorIconTint="@color/red"
+                    app:helperTextEnabled="true">
 
+                    <!-- <com.google.android.material.textfield.TextInputEditText
+                         android:id="@+id/tietClient"
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"
+                         android:inputType="text"
+                         android:singleLine="true" />
+                     <androidx.appcompat.widget.AppCompatAutoCompleteTextView
+                         android:id="@+id/tietClient"
+                         android:layout_width="fill_parent"
+                         android:layout_height="wrap_content"
+                         android:inputType="text"
+                         android:singleLine="true" />-->
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                        android:id="@+id/tietClient"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text" />
+                </com.google.android.material.textfield.TextInputLayout>
 
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnAddClient"
+                    style="@style/Widget.MaterialComponents.Button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/blue"
+                    android:text="+"
+                    android:layout_toEndOf="@+id/tiClient"
+                    android:textColor="@color/white"
+                    android:textSize="20dp"
+                    app:cornerRadius="10dp" />
+            </RelativeLayout>
+            
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tiObs"
                 android:layout_width="match_parent"
@@ -98,7 +111,6 @@
                 app:layout_constraintStart_toStartOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/tieObs"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text" />
@@ -106,11 +118,9 @@
             </com.google.android.material.textfield.TextInputLayout>
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:descendantFocusability="blocksDescendants">
+                android:layout_height="200dp">
 
                 <TextView
-                    android:id="@+id/tvProducts"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -124,9 +134,9 @@
                     android:id="@+id/rvProducts"
                     android:layout_width="match_parent"
                     android:layout_height="173dp"
-                    android:focusable="false"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
+                    android:focusable="true"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent">
 
@@ -134,7 +144,7 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnAgregar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -142,9 +152,16 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:text="Registrar"
-                app:layout_constraintEnd_toEndOf="parent" />
+                android:textColor="@color/blue"
+                app:layout_constraintEnd_toEndOf="parent"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                app:cornerRadius="10dp"
+                app:strokeColor="@color/blue"/>
+
 
         </LinearLayout>
+
+
     </ScrollView>
 
 

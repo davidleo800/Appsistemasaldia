@@ -1,6 +1,9 @@
 package com.aldia.appsistemasaldia.ui.main;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,12 +15,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.aldia.appsistemasaldia.R;
 import com.aldia.appsistemasaldia.data.model.ArrayProductsFac;
-import com.aldia.appsistemasaldia.data.model.Model_ProductsFactura;
 import com.aldia.appsistemasaldia.data.model.tb_Details_Product;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class RecyclerViewAdapterProducts extends RecyclerView.Adapter<RecyclerViewAdapterProducts.productViewHolder> {
@@ -34,28 +37,80 @@ public class RecyclerViewAdapterProducts extends RecyclerView.Adapter<RecyclerVi
     @Override
     public productViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.items_recyclerview, null, false);
-        return new RecyclerViewAdapterProducts.productViewHolder(view);
+
+        return new productViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull productViewHolder holder, int position) {
+
         holder.tvIdProduct.setText(listProduct.get(position).getId_product());
         holder.tvProductName.setText(listProduct.get(position).getProduct_name());
         holder.tvPrice.setText(String.valueOf(listProduct.get(position).getAmount()));
-        AtomicInteger cont = new AtomicInteger();
-        // Suma valor en text view cant
 
-        //ArrayList<Model_ProductsFactura> arr = new ArrayList<>();
+        // AtomicInteger cont = new AtomicInteger();
+        AtomicInteger cont = new AtomicInteger(Integer.parseInt(holder.tvcant.getText().toString()));
+
+        // Multiplicar peso por valor
+        holder.tietkg.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s == null || s.toString().isEmpty()) {
+                    holder.tvTotal.setText(String.format("%s", 0));
+                }else{
+                    double result = Double.parseDouble(s.toString()) * listProduct.get(position).getAmount();
+                    holder.tvTotal.setText(String.format("%s", result));
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(s == null || s.toString().isEmpty()) {
+                    holder.tvTotal.setText(String.format("%s", 0));
+                }else{
+                    double valKg;
+                    if (Objects.requireNonNull(holder.tietkg.getText()).toString().equals("")){
+                        valKg = 0;
+                    } else {
+                        valKg = Double.parseDouble(Objects.requireNonNull(holder.tietkg.getText()).toString());
+
+                    }
+                    arrayProductsFac.Array(listProduct.get(position).getId_product(),
+                            listProduct.get(position).getProduct_name(),
+                            valKg,
+                            Double.parseDouble(holder.tvTotal.getText().toString()),
+                            cont.intValue());
+                }
+
+
+            }
+
+        });
+
+        // Suma valor en text view cant
         holder.btnMore.setOnClickListener(v ->{
             cont.set(cont.get() + 1);
             holder.tvcant.setText(String.valueOf(cont));
-            holder.tvTotal.setText(String.valueOf(listProduct.get(position).getAmount() * cont.doubleValue()));
+            // holder.tvTotal.setText(String.valueOf(listProduct.get(position).getAmount() * cont.doubleValue()));
             // Insertar en array list los productos
+            double valKg;
+            if (Objects.requireNonNull(holder.tietkg.getText()).toString().equals("")){
+                valKg = 0;
+            } else {
+                valKg = Double.parseDouble(Objects.requireNonNull(holder.tietkg.getText()).toString());
+
+            }
             arrayProductsFac.Array(listProduct.get(position).getId_product(),
                     listProduct.get(position).getProduct_name(),
-                    (listProduct.get(position).getAmount() * cont.doubleValue()),
+                    valKg,
+                    Double.parseDouble(holder.tvTotal.getText().toString()),
                     cont.intValue());
-
+            System.out.println(cont);
         });
 
         // Resta valor en text view cant
@@ -63,15 +118,24 @@ public class RecyclerViewAdapterProducts extends RecyclerView.Adapter<RecyclerVi
             if (cont.get() > 0) {
                 cont.set(cont.get() - 1);
                 holder.tvcant.setText(String.valueOf(cont));
-                holder.tvTotal.setText(String.valueOf(listProduct.get(position).getAmount() * cont.doubleValue()));
+                // holder.tvTotal.setText(String.valueOf(listProduct.get(position).getAmount() * cont.doubleValue()));
                 // Insertar en array list los productos
+                double valKg;
+                if (Objects.requireNonNull(holder.tietkg.getText()).toString().equals("")){
+                    valKg = 0;
+                } else {
+                    valKg = Double.parseDouble(Objects.requireNonNull(holder.tietkg.getText()).toString());
+
+                }
                 arrayProductsFac.Array(listProduct.get(position).getId_product(),
                         listProduct.get(position).getProduct_name(),
-                        (listProduct.get(position).getAmount() * cont.doubleValue()),
+                        valKg,
+                        Double.parseDouble(holder.tvTotal.getText().toString()),
                         cont.intValue());
             }
-
+            System.out.println(cont);
         });
+
     }
 
     @Override
@@ -79,11 +143,23 @@ public class RecyclerViewAdapterProducts extends RecyclerView.Adapter<RecyclerVi
         return listProduct.size();
     }
 
-    public class productViewHolder extends RecyclerView.ViewHolder {
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
 
-        TextView tvIdProduct, tvProductName, tvPrice, tvcant, tvTotal;
-        Button btnAdd, btnLess, btnMore;
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
 
+
+    public static class productViewHolder extends RecyclerView.ViewHolder {
+
+        TextView tvIdProduct, tvProductName, tvPrice, tvTotal, tvcant;
+        TextInputLayout tikg;
+        TextInputEditText tietkg;
+        Button btnLess, btnMore;
         public productViewHolder(@NonNull View itemView) {
             super(itemView);
             tvIdProduct = itemView.findViewById(R.id.tvIdProduct);
@@ -93,8 +169,8 @@ public class RecyclerViewAdapterProducts extends RecyclerView.Adapter<RecyclerVi
             tvTotal = itemView.findViewById(R.id.tvTotal);
             btnLess = itemView.findViewById(R.id.btn_less);
             btnMore = itemView.findViewById(R.id.btn_more);
-
-            // btnAdd = itemView.findViewById(R.id.btnAddProduct);
+            tikg = itemView.findViewById(R.id.tikg);
+            tietkg = itemView.findViewById(R.id.tietkg);
         }
     }
 

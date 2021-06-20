@@ -24,7 +24,6 @@ public class GetProducts {
 
     List<tb_Details_Product> ListProducts = new ArrayList<>();
     // JSONArray datos;
-    RecyclerViewAdapterProducts recyclerViewAdapterProducts;
 
     public void getListProducts(Context context, String url, RecyclerView recyclerView) {
         StringRequest stringRequest = new StringRequest(Request.Method.POST,url,
@@ -46,12 +45,13 @@ public class GetProducts {
                         }
                         // System.out.println(datos);
                         recyclerView.setLayoutManager(new LinearLayoutManager(context));
+                        RecyclerViewAdapterProducts recyclerViewAdapterProducts;
                         recyclerViewAdapterProducts = new RecyclerViewAdapterProducts(context, ListProducts);
                         recyclerView.setAdapter(recyclerViewAdapterProducts);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                }, error -> error.printStackTrace());
+                }, Throwable::printStackTrace);
         VolleySingleton.getInstanceVolley(context).addToRequestQueue(stringRequest);
     }
 

@@ -2,13 +2,11 @@ package com.aldia.appsistemasaldia.data.model;
 
 import android.content.Context;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.widget.AutoCompleteTextView;
 
-import androidx.appcompat.widget.AppCompatAutoCompleteTextView;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.app.AlertDialog;
 
-import com.aldia.appsistemasaldia.ui.main.RecyclerViewAdapterAdmin;
+import com.aldia.appsistemasaldia.R;
 import com.android.volley.Request;
 import com.android.volley.toolbox.StringRequest;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
@@ -19,7 +17,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 
 public class GetClients {
     ArrayList<Model_Clients> ListClients = new ArrayList<>();
@@ -58,10 +55,33 @@ public class GetClients {
                         }
                         ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, arr);
                         tietClient.setAdapter(adapter);
+                        String[] array = arr.toArray(new String[0]);
+                        tietClient.setValidator(new AutoCompleteTextView.Validator() {
+                            @Override
+                            public boolean isValid(CharSequence text) {
+                                return contains(array, text.toString());
+                            }
+
+                            @Override
+                            public CharSequence fixText(CharSequence invalidText) {
+                                AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.Theme_AppCompat_DayNight_Dialog);
+                                builder.setTitle("Error");
+                                builder.setMessage("Ingrese un cliente registrado, de lo contrario seleccione '+' para registrarlo");
+                                builder.setPositiveButton("Aceptar", null);
+                                AlertDialog dialog = builder.create();
+                                dialog.show();
+                                return "";
+                            }
+                        });
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
                 }, Throwable::printStackTrace);
         VolleySingleton.getInstanceVolley(context).addToRequestQueue(stringRequest);
+    }
+
+    public static boolean contains(final String[] arr, final String key) {
+        return Arrays.asList(arr).contains(key);
     }
 }

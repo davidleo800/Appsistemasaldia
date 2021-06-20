@@ -8,6 +8,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -21,7 +22,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -35,19 +38,21 @@ import com.aldia.appsistemasaldia.data.model.DataRegisterProduct;
 import com.aldia.appsistemasaldia.data.model.GetClients;
 import com.aldia.appsistemasaldia.data.model.GetProducts;
 import com.aldia.appsistemasaldia.data.model.mailerApi.MailAPI;
+import com.aldia.appsistemasaldia.ui.ViewActivityIntern.RegisterClient;
 import com.aldia.appsistemasaldia.ui.login.LoginActivity;
+import com.aldia.appsistemasaldia.ui.login.RegisterUser;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
 
 
 public class MainDirver extends AppCompatActivity {
 
     private Toolbar toolbar;
-    private EditText etDate;
     private TextView tvName, tvLastname;
     private TextInputLayout tiClient, tiObs;
     // private TextInputEditText tietClient;
@@ -55,7 +60,7 @@ public class MainDirver extends AppCompatActivity {
     private MaterialAutoCompleteTextView tietClient;
     String Id_user;
     private ProgressDialog progressDialog;
-    private Button btnAgregar;
+    private Button btnAgregar, btnAddClient;
     private CoordinatorLayout coorLayout;
     private ListView listViewItems;
     private RecyclerView rvProducts;
@@ -80,6 +85,8 @@ public class MainDirver extends AppCompatActivity {
 
         // Button btnAgregar
         btnAgregar = findViewById(R.id.btnAgregar);
+        // Button btnAgregarClient
+        btnAddClient = findViewById(R.id.btnAddClient);
 
         // coordinatorLayout defined
         coorLayout = findViewById(R.id.coordinatorLayoutDriver);
@@ -125,7 +132,6 @@ public class MainDirver extends AppCompatActivity {
 
         //Button Registrar
         btnAgregar.setOnClickListener(v -> {
-
             if(Objects.requireNonNull(tiClient.getEditText()).getText().toString().equals("")){
                 tiClient.setError("Complete este campo");
             }else {
@@ -133,15 +139,18 @@ public class MainDirver extends AppCompatActivity {
                 progressDialog.show();
                 registerProduct();
                 hideKeyboard();
-                tietClient.setText("");
             }
+        });
 
-
+        btnAddClient.setOnClickListener(v ->{
+            Intent intent = new Intent (v.getContext(), RegisterClient.class);
+            startActivityForResult(intent, 0);
         });
 
         // Fill AppCompatAutoCompleteTextView
         GetClients getClients = new GetClients();
-        getClients.getListClients(getApplicationContext(), getString(R.string.URL_GetClients), tietClient);
+        getClients.getListClients(this, getString(R.string.URL_GetClients), tietClient);
+
 
         // Progress dialog
         progressDialog= new ProgressDialog(this);
@@ -172,10 +181,12 @@ public class MainDirver extends AppCompatActivity {
             arraNew.add("{\"Id\": \""+arr.getModel_ProductsFactura().get(i).getId_product()+"\", "+
                     "\"Name\": \""+arr.getModel_ProductsFactura().get(i).getProduct_name()+"\", "+
                     "\"Cant\": \""+arr.getModel_ProductsFactura().get(i).getCant()+"\", "+
+                    "\"weight\": \""+arr.getModel_ProductsFactura().get(i).getWeight()+"\", "+
                     "\"Amount\": \""+arr.getModel_ProductsFactura().get(i).getAmount()+"\"}");
             produtosfinales.append("Id: ").append(arr.getModel_ProductsFactura().get(i).getId_product())
                     .append(" Name: ").append(arr.getModel_ProductsFactura().get(i).getProduct_name())
                     .append(" Cant: ").append(arr.getModel_ProductsFactura().get(i).getCant())
+                    .append(" weight: ").append(arr.getModel_ProductsFactura().get(i).getWeight())
                     .append(" Amount: ").append(arr.getModel_ProductsFactura().get(i).getAmount()).append("\n");
         }
         dialogo1.setMessage(""+produtosfinales+"\n"+"Total: "+total);
@@ -204,7 +215,7 @@ public class MainDirver extends AppCompatActivity {
                 // System.out.println(json);
                 // String jsonStr = json.toString();
                 dataRegisterProduct.RegisterProduct(
-                        Objects.requireNonNull(tiClient.getEditText()).getText().toString(),
+                        tietClient.getText().toString(),
                         arraNew.toString(),
                         String.valueOf(finalTotal),
                         Objects.requireNonNull(tiObs.getEditText()).getText().toString(),
@@ -220,7 +231,7 @@ public class MainDirver extends AppCompatActivity {
                         "(NO REPLY) FACTURA App sistemas al día",
                         produtosfinales+"\n"+tiObs.getEditText().getText().toString()+"\n"+"Total: "+ finalTotal);
                 mailAPI.execute();
-
+                tietClient.setText("");
             });
             dialogo1.setNegativeButton("Cancelar", (dialogo112, id) -> {
                 progressDialog.dismiss();

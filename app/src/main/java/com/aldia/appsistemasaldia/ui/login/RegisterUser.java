@@ -63,12 +63,9 @@ public class RegisterUser extends AppCompatActivity {
         textwatcherValidacion();
 
         // Comeback to Login
-        materialToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent (v.getContext(), LoginActivity.class);
-                startActivityForResult(intent, 0);
-            }
+        materialToolbar.setNavigationOnClickListener(v -> {
+            Intent intent = new Intent (v.getContext(), LoginActivity.class);
+            startActivityForResult(intent, 0);
         });
 
         // Action to Register user
