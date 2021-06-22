@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Appsistemasaldia</string>
+    <string name="app_name">App Sistemas al día</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="prompt_cc">Identificación</string>
     <string name="prompt_Name">Nombre</string>
