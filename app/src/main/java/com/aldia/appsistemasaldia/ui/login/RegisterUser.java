@@ -65,7 +65,8 @@ public class RegisterUser extends AppCompatActivity {
         // Comeback to Login
         materialToolbar.setNavigationOnClickListener(v -> {
             Intent intent = new Intent (v.getContext(), LoginActivity.class);
-            startActivityForResult(intent, 0);
+            startActivity(intent);
+            //startActivityForResult(intent, 0);
         });
 
         // Action to Register user

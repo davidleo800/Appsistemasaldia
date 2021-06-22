@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/coordinatorLayoutreg"
+    android:id="@+id/coordinatorLayoutregclient"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -35,6 +35,7 @@
 
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tiIdClient"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -42,6 +43,7 @@
                 android:hint="@string/prompt_cc" >
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tietIdClient"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
@@ -51,6 +53,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tiNameClient"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -58,6 +61,7 @@
                 android:hint="@string/prompt_NamepLstname" >
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tietNameClient"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
@@ -66,6 +70,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tiTel1Client"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -73,6 +78,7 @@
                 android:hint="@string/prompt_telefono1" >
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tietTel1Client"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
@@ -81,6 +87,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tiTel2Client"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -88,6 +95,7 @@
                 android:hint="@string/prompt_telefono2" >
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tietTel2Client"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
@@ -96,6 +104,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tiAddressClient"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -103,6 +112,7 @@
                 android:hint="@string/prompt_Address" >
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tietAddressClient"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
@@ -111,6 +121,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tiEmailClient"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -118,6 +129,7 @@
                 android:hint="@string/prompt_Email" >
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tietEmailClient"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:singleLine="true"

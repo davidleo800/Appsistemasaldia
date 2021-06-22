@@ -40,7 +40,8 @@ public class LoginActivity extends AppCompatActivity {
         textwatcherValidacion();
         tvSignup.setOnClickListener(v -> {
             Intent intent = new Intent (v.getContext(), RegisterUser.class);
-            startActivityForResult(intent, 0);
+            startActivity(intent);
+            //startActivityForResult(intent, 0);
         });
 
         btIngresar.setOnClickListener(v -> {

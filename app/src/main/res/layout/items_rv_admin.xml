@@ -39,7 +39,7 @@
                     android:id="@+id/tv_products"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Producto 1, Cantidad: 2, valor: 200000\nProducto 2, Cantidad 1, valor: 35000"/>
+                    android:text="Producto 1, Cant: 2, Peso: 2kg\nValor: 200000\nProducto 2, Cant: 3, Peso: 5kg\nValor: 40000"/>
                 <TextView
                     android:fontFamily="sans-serif-condensed-light"
                     android:textSize="15dp"

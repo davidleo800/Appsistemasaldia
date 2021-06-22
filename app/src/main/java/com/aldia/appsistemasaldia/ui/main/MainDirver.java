@@ -144,7 +144,8 @@ public class MainDirver extends AppCompatActivity {
 
         btnAddClient.setOnClickListener(v ->{
             Intent intent = new Intent (v.getContext(), RegisterClient.class);
-            startActivityForResult(intent, 0);
+            startActivity(intent);
+            //startActivityForResult(intent, 0);
         });
 
         // Fill AppCompatAutoCompleteTextView

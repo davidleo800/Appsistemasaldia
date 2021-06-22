@@ -21,6 +21,7 @@
     <string name="URL_RegisterUser">https://webservicetest-android.000webhostapp.com/WebServices/RegistroUsuarios.php</string>
     <string name="URL_Login">https://webservicetest-android.000webhostapp.com/WebServices/ws_login.php</string>
     <string name="URL_RegisterProduct">https://webservicetest-android.000webhostapp.com/WebServices/RegisterProduct.php</string>
+    <string name="URL_RegisterClients">https://webservicetest-android.000webhostapp.com/WebServices/RegisterClient.php</string>
     <string name="URL_GetProduct">https://webservicetest-android.000webhostapp.com/WebServices/GetProducts.php</string>
     <string name="URL_GetInvoice">https://webservicetest-android.000webhostapp.com/WebServices/GetInvoice.php</string>
     <string name="URL_GetClients">https://webservicetest-android.000webhostapp.com/WebServices/GetClients.php</string>

@@ -52,6 +52,7 @@ public class RecyclerViewAdapterAdmin extends RecyclerView.Adapter<RecyclerViewA
                 prod.append("Id: ").append(jsonobject.getString("Id"))
                         .append(" Prod: ").append(jsonobject.getString("Name"))
                         .append(" Cant: ").append(jsonobject.getString("Cant"))
+                        .append(" Peso: ").append(jsonobject.getString("weight")).append(" kg")
                         .append(" Valor: ").append(jsonobject.getString("Amount")).append("\n");
 
             }
