@@ -185,10 +185,10 @@ public class MainDirver extends AppCompatActivity {
                     "\"weight\": \""+arr.getModel_ProductsFactura().get(i).getWeight()+"\", "+
                     "\"Amount\": \""+arr.getModel_ProductsFactura().get(i).getAmount()+"\"}");
             produtosfinales.append("Id: ").append(arr.getModel_ProductsFactura().get(i).getId_product())
-                    .append(" Name: ").append(arr.getModel_ProductsFactura().get(i).getProduct_name())
+                    .append(" Nombre: ").append(arr.getModel_ProductsFactura().get(i).getProduct_name())
                     .append(" Cant: ").append(arr.getModel_ProductsFactura().get(i).getCant())
-                    .append(" weight: ").append(arr.getModel_ProductsFactura().get(i).getWeight())
-                    .append(" Amount: ").append(arr.getModel_ProductsFactura().get(i).getAmount()).append("\n");
+                    .append(" Peso: ").append(arr.getModel_ProductsFactura().get(i).getWeight())
+                    .append(" Precio: ").append(arr.getModel_ProductsFactura().get(i).getAmount()).append("\n");
         }
         dialogo1.setMessage(""+produtosfinales+"\n"+"Total: "+total);
 
