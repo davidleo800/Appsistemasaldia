@@ -253,8 +253,10 @@ public class MainDirver extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.logout) {// User chose the "Settings" item, show the app settings UI...
-            SharedPreferences preferences = getSharedPreferences("preferencesLogin", Context.MODE_PRIVATE);
-            preferences.edit().clear().apply();
+            SharedPreferences.Editor preferences = getSharedPreferences("preferencesLogin", MODE_PRIVATE).edit();
+            SharedPreferences.Editor preferencesSesion = getSharedPreferences("preferencesSesion", MODE_PRIVATE).edit();
+            preferencesSesion.clear().apply();
+            preferences.clear().apply();
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(intent);
             finish();

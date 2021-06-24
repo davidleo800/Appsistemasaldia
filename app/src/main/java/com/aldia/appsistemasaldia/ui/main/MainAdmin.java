@@ -75,8 +75,8 @@ public class MainAdmin extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.logout) {// User chose the "Settings" item, show the app settings UI...
-            //SharedPreferences preferences = getSharedPreferences("preferencesLogin2", Context.MODE_PRIVATE);
-            //preferences.edit().clear().commit();
+            SharedPreferences.Editor preferences = getSharedPreferences("preferencesLogin", MODE_PRIVATE).edit();
+            preferences.clear().apply();
             Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(intent);
             finish();
