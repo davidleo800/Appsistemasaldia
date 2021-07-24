@@ -2,16 +2,12 @@ package com.aldia.appsistemasaldia.ui.main;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatAutoCompleteTextView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -22,11 +18,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,16 +29,13 @@ import com.aldia.appsistemasaldia.data.model.ArrayProductsFac;
 import com.aldia.appsistemasaldia.data.model.DataRegisterProduct;
 import com.aldia.appsistemasaldia.data.model.GetClients;
 import com.aldia.appsistemasaldia.data.model.GetProducts;
-import com.aldia.appsistemasaldia.data.model.mailerApi.MailAPI;
+import com.aldia.appsistemasaldia.data.mailerApi.MailAPI;
 import com.aldia.appsistemasaldia.ui.ViewActivityIntern.RegisterClient;
 import com.aldia.appsistemasaldia.ui.login.LoginActivity;
-import com.aldia.appsistemasaldia.ui.login.RegisterUser;
 import com.google.android.material.textfield.MaterialAutoCompleteTextView;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Objects;
 
 
@@ -170,7 +159,7 @@ public class MainDirver extends AppCompatActivity {
             }
         }
 
-        AlertDialog.Builder dialogo1 = new AlertDialog.Builder(this);
+        AlertDialog.Builder dialogo1 = new AlertDialog.Builder(this, R.style.Theme_AppCompat_DayNight_Dialog_Alert);
         dialogo1.setTitle("¿Desea registrar la compra de estos productos?");
 
         ArrayProductsFac arr = new ArrayProductsFac();

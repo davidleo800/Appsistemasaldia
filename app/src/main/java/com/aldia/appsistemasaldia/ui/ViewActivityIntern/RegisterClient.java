@@ -82,7 +82,7 @@ public class RegisterClient extends AppCompatActivity {
             if(Objects.requireNonNull(tiIdClient.getEditText()).getText().toString().equals("") ||
                     Objects.requireNonNull(tiNameClient.getEditText()).getText().toString().equals("") ||
                     Objects.requireNonNull(tiTel1Client.getEditText()).getText().toString().equals("") ||
-                    Objects.requireNonNull(tiTel2Client.getEditText()).getText().toString().equals("") ||
+                    //Objects.requireNonNull(tiTel2Client.getEditText()).getText().toString().equals("") ||
                     Objects.requireNonNull(tiAddressClient.getEditText()).getText().toString().equals("") ||
                     Objects.requireNonNull(tiEmailClient.getEditText()).getText().toString().equals("")){
                 if(tiIdClient.getEditText().getText().toString().equals(""))
@@ -94,9 +94,10 @@ public class RegisterClient extends AppCompatActivity {
                 if(tiTel1Client.getEditText().getText().toString().equals(""))
                     tiTel1Client.setError("Complete este campo");
                 else tiTel1Client.setError(null);
+                /*
                 if(tiTel2Client.getEditText().getText().toString().equals(""))
                     tiTel2Client.setError("Complete este campo");
-                else tiTel2Client.setError(null);
+                else tiTel2Client.setError(null);*/
                 if(tiAddressClient.getEditText().getText().toString().equals(""))
                     tiAddressClient.setError("Complete este campo");
                 else tiAddressClient.setError(null);
@@ -132,6 +133,12 @@ public class RegisterClient extends AppCompatActivity {
                 progressDialog,
                 getString(R.string.URL_RegisterClients)
         );
+        tietIdClient.setText("");
+        tietNameClient.setText("");
+        tietTel1Client.setText("");
+        tietTel2Client.setText("");
+        tietAddressClient.setText("");
+        tietEmailClient.setText("");
         progressDialog.dismiss();
 
     }
